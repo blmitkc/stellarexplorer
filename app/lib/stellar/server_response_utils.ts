@@ -18,7 +18,8 @@ const serverApiResponseToState = (rsp: ServerApi.CollectionPage<
     ServerApi.OfferRecord |
     ServerApi.PaymentOperationRecord |
     ServerApi.TradeRecord |
-    ServerApi.TransactionRecord
+    ServerApi.TransactionRecord |
+    ServerApi.LiquidityPoolRecord
 >, rspRecordConverterFn: any) => rsp.records.map(rspRecordConverterFn)
 
 /*
@@ -91,6 +92,10 @@ const tradeRspRecToPropsRec = (
     rspRec: ServerApi.TradeRecord
 ): Record<string, any> => keysToCamelCasePlusTime(rspRec, `ledger_close_time`)
 
+const liquidityPoolRspRecToPropsRec = (
+    rspRec: ServerApi.LiquidityPoolRecord
+): Record<string, any> => keysToCamelCasePlusTime(rspRec)
+
 /*
  * Helpers
  */
@@ -110,5 +115,6 @@ export {
     operationRspRecToPropsRec,
     paymentRspRecToPropsRec,
     tradeRspRecToPropsRec,
-    transactionRspRecToPropsRec
+    transactionRspRecToPropsRec,
+    liquidityPoolRspRecToPropsRec
 }

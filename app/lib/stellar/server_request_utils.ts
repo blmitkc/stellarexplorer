@@ -3,6 +3,7 @@ import type HorizonServer from "./server"
 import {
     effectRspRecToPropsRec,
     ledgerRspRecToPropsRec,
+    liquidityPoolRspRecToPropsRec,
     offersRspRecToPropsRec,
     operationRspRecToPropsRec,
     paymentRspRecToPropsRec,
@@ -10,7 +11,7 @@ import {
     tradeRspRecToPropsRec,
     transactionRspRecToPropsRec,
 } from "./server_response_utils"
-import { FederationServer, MuxedAccount, type ServerApi } from "stellar-sdk"
+import { Asset, FederationServer, MuxedAccount, type ServerApi } from "stellar-sdk"
 import type { CallBuilder } from "stellar-sdk/lib/call_builder"
 import type { OperationCallBuilder } from "stellar-sdk/lib/operation_call_builder"
 import type { EffectCallBuilder } from "stellar-sdk/lib/effect_call_builder"
@@ -21,6 +22,7 @@ import type { AccountCallBuilder } from "stellar-sdk/lib/account_call_builder"
 import { TransactionCallBuilder } from "stellar-sdk/lib/transaction_call_builder"
 import { OfferCallBuilder } from "stellar-sdk/lib/offer_call_builder"
 import AccountTypeUnrecognizedException from "../error/AccountTypeUnrecognizedException"
+import { LiquidityPoolCallBuilder } from 'stellar-sdk/lib/liquidity_pool_call_builder'
 
 interface PageOptions {
     cursor?: string
@@ -239,6 +241,30 @@ const trades = (server: HorizonServer, {
     )
 }
 
+const liquidityPools = (server: HorizonServer, {
+    id,
+    accountId,
+    assets,
+    cursor,
+    order = 'desc',
+    limit = 5,
+}: PageOptions & { id?: string, accountId?: string, assets?: Asset[] }) => {
+    const builder: LiquidityPoolCallBuilder = server.liquidityPools()
+
+    if (id) builder.liquidityPoolId(id)
+    if (accountId) builder.forAccount(accountId)
+    if (assets) builder.forAssets(...assets)
+
+    if (cursor) builder.cursor(cursor)
+    builder.limit(limit)
+    builder.order(order)
+
+    return builder.call().then(
+        (serverRsp) =>
+            serverApiResponseToState(serverRsp, liquidityPoolRspRecToPropsRec)
+    )
+}
+
 export {
     effects,
     ledgers,
@@ -249,5 +275,6 @@ export {
     trades,
     transactions,
     transaction,
-    loadAccount
+    loadAccount,
+    liquidityPools
 }

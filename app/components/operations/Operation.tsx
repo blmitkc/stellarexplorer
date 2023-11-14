@@ -15,7 +15,7 @@ import { ClawbackOperation, ClawbackClaimableBalanceOperation } from "./Clawback
 import CreateAccount, { CreateAccountProps } from "./CreateAccount"
 import Inflation from "./Inflation"
 import InvokeHostFunction from "./InvokeHostFunction"
-import { LiquidityPoolDeposit, LiquidityPoolWithdraw } from "./LiquidityPool"
+import LiquidityPool, { LiquidityPoolDeposit, LiquidityPoolProps, LiquidityPoolWithdraw } from "./LiquidityPool"
 import ManageData, { ManageDataProps } from "./ManageData"
 import Offer from "./Offer"
 import PathPayment, { PathPaymentProps } from "./PathPayment"
@@ -47,6 +47,7 @@ const OperationTypeToComponentMap = {
 
   liquidity_pool_deposit: LiquidityPoolDeposit,
   liquidity_pool_withdraw: LiquidityPoolWithdraw,
+  // liquidity_pool: LiquidityPool,
 
   invoke_host_function: InvokeHostFunction,
 
@@ -71,6 +72,7 @@ interface OperationRecordProps extends
   CreateAccountProps,
   ManageDataProps,
   PathPaymentProps,
+  // LiquidityPoolProps,
   SetOptionsProps {
   id: string
   type: OperationTypes

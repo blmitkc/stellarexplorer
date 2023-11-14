@@ -82,6 +82,11 @@ export default function Header({
                 <FormattedMessage id="trades" />
               </NavDropdown.Item>
             </LinkContainer>
+            <LinkContainer to="/liquidityPools">
+              <NavDropdown.Item>
+                <FormattedMessage id="Liquidity Pools" />
+              </NavDropdown.Item>
+            </LinkContainer>
           </NavDropdown>
         </Nav>
         <Nav className="ms-auto">
