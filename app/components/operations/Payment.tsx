@@ -7,7 +7,7 @@ import FormattedAmount from '../shared/FormattedAmount'
 export interface PaymentProps extends PropsWithChildren {
   id: string
   amount: string
-  assetCode: string,
+  assetCode: string
   assetIssuer: string
   assetType: string
   to: string

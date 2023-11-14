@@ -1,5 +1,14 @@
+import { PropsWithChildren } from 'react'
 import AccountLink from "../shared/AccountLink"
-import Asset from "../shared/Asset"
+import { Horizon } from 'stellar-sdk';
+
+export interface LiquidityPoolProps extends PropsWithChildren {
+  id: string;
+  totalTrustlines: string;
+  totalShares: string;
+  reserves: Horizon.Reserve[];
+  pagingToken: string;
+}
 
 const LiquidityPoolDeposit = ({
   sourceAccount,
