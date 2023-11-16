@@ -11,6 +11,7 @@ export type ServerReqFnName =
     | 'trades'
     | 'transactions'
     | 'liquidityPools'
+    | 'claimableBalances'
 
 export function horizonRecordsLoader<RecordsType>(
     serverReqFnName: ServerReqFnName,

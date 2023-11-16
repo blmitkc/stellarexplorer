@@ -1,6 +1,7 @@
 import type { LedgerCallBuilder } from "stellar-sdk/lib/ledger_call_builder"
 import type HorizonServer from "./server"
 import {
+    claimableBalanceRspRecToPropsRec,
     effectRspRecToPropsRec,
     ledgerRspRecToPropsRec,
     liquidityPoolRspRecToPropsRec,
@@ -23,6 +24,7 @@ import { TransactionCallBuilder } from "stellar-sdk/lib/transaction_call_builder
 import { OfferCallBuilder } from "stellar-sdk/lib/offer_call_builder"
 import AccountTypeUnrecognizedException from "../error/AccountTypeUnrecognizedException"
 import { LiquidityPoolCallBuilder } from 'stellar-sdk/lib/liquidity_pool_call_builder'
+import { ClaimableBalanceCallBuilder } from 'stellar-sdk/lib/claimable_balances_call_builder'
 
 interface PageOptions {
     cursor?: string
@@ -265,6 +267,32 @@ const liquidityPools = (server: HorizonServer, {
     )
 }
 
+const claimableBalances = (server: HorizonServer, {
+    id,
+    sponsor,
+    claimant,
+    asset,
+    cursor,
+    order = 'desc',
+    limit = 5,
+}: PageOptions & { id?: string, sponsor?: string, claimant?: string, asset?: Asset }) => {
+    const builder: ClaimableBalanceCallBuilder = server.claimableBalances()
+
+    if (id) builder.claimableBalance(id)
+    if (sponsor) builder.sponsor(sponsor)
+    if (claimant) builder.claimant(claimant)
+    if (asset) builder.asset(asset)
+
+    if (cursor) builder.cursor(cursor)
+    builder.limit(limit)
+    builder.order(order)
+
+    return builder.call().then(
+        (serverRsp) =>
+            serverApiResponseToState(serverRsp, claimableBalanceRspRecToPropsRec)
+    )
+}
+
 export {
     effects,
     ledgers,
@@ -276,5 +304,6 @@ export {
     transactions,
     transaction,
     loadAccount,
-    liquidityPools
+    liquidityPools,
+    claimableBalances
 }

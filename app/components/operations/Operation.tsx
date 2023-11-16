@@ -63,6 +63,8 @@ const OperationTypeToComponentMap = {
   payment: Payment,
   set_options: SetOptions,
   set_trust_line_flags: SetTrustLineFlags,
+
+  // claimable_balance:: ClaimableBalance,
 }
 
 type OperationTypes = keyof typeof OperationTypeToComponentMap
@@ -73,6 +75,7 @@ interface OperationRecordProps extends
   ManageDataProps,
   PathPaymentProps,
   // LiquidityPoolProps,
+  // ClaimableBalanceProps,
   SetOptionsProps {
   id: string
   type: OperationTypes
